@@ -33,10 +33,10 @@ Let's start with the quote from [GNOME developer](https://developer.gnome.org/pr
 
 Here are listed most obvious and important general rules. Please check them carefully before you continue with other chapters.
 
-- Use `C99` standard
-- Do not use tabs, use spaces instead
-- Use `4` spaces per indent level
-- Use `1` space between keyword and opening bracket
+- 使用 `C99` 標準
+- 不要使用 tabs, 而是使用空格
+- 每個縮排級別使用 `4` 個空格
+- 在關鍵字和左括號之間使用 `1` 個空格
 ```c
 /* OK */
 if (condition)
@@ -51,7 +51,7 @@ for(init;condition;step)
 do {} while(condition)
 ```
 
-- Do not use space between function name and opening bracket
+- 在函數名和左括號之間不要使用空格
 ```c
 int32_t a = sum(4, 3);              /* OK */
 int32_t a = sum (4, 3);             /* Wrong */
