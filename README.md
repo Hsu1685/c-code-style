@@ -51,16 +51,17 @@ for(init;condition;step)
 do {} while(condition)
 ```
 
-- 在函數名和左括號之間不要使用空格
+- 在函數名和左小括號之間不要使用空格
 ```c
 int32_t a = sum(4, 3);              /* OK */
 int32_t a = sum (4, 3);             /* Wrong */
 ```
 
-- Never use `__` or `_` prefix for variables/functions/macros/types. This is reserved for C language itself
-    - Prefer `prv_` name prefix for strictly module-private functions
-- Use only lowercase characters for variables/functions/macros/types with optional underscore `_` char
-- Opening curly bracket is always at the same line as keyword (`for`, `while`, `do`, `switch`, `if`, ...)
+- 不要在變數/函數/聚集/類型中使用 `__` 或 `_` 前綴。這是為C語言本身所保留的
+    - 對於嚴格的模組私有函數，使用 `prv_` 名稱前綴
+- 對有下畫線 `_` 的變數/函數/聚集/類型只使用小寫字母
+- 左大括號總是和關鍵字 (`for`, `while`, `do`, `switch`, `if`, ...) 在同一行
+> [補充] 右小括號和左大括號中間使用單空格
 ```c
 size_t i;
 for (i = 0; i < 5; ++i) {           /* OK */
@@ -72,7 +73,7 @@ for (i = 0; i < 5; ++i)             /* Wrong */
 }
 ```
 
-- Use single space before and after comparison and assignment operators
+- 在比較運算子 (comparison operators) 和指派運算子 (assignment operators) 的前和後使用單空格
 ```c
 int32_t a;
 a = 3 + 4;              /* OK */
@@ -82,13 +83,13 @@ a = 3+4;                /* Wrong */
 for (a=0;a<5;++a)       /* Wrong */
 ```
 
-- Use single space after every comma
+- 在每個逗號後使用單空格
 ```c
 func_name(5, 4);        /* OK */
 func_name(4,3);         /* Wrong */
 ```
 
-- Do not initialize `static` and `global` variables to `0` (or `NULL`), let compiler do it for you
+- 不要初始化 `static` 和 `global` 變數為 `0` (或是 `NULL`)，讓編譯器來做
 ```c
 static int32_t a;       /* OK */
 static int32_t b = 4;   /* OK */
@@ -101,7 +102,7 @@ my_func(void) {
 }
 ```
 
-- Declare all local variables of the same type in the same line
+- 在同一行中宣告所有相同類型的local variables
 ```c
 void
 my_func(void) {
@@ -111,10 +112,11 @@ my_func(void) {
 }
 ```
 
-- Declare local variables in order
-    1. Custom structures and enumerations
-    2. Integer types, wider unsigned type first
-    3. Single/Double floating point
+- 按順序宣告局部變數 (local variables)
+    1. 自訂的結構 (structures) 和 枚舉 (enumerations)
+    2. 整數類型，範圍更大的的型態優先
+    3. 單浮點數/雙浮點數 (Single/Double floating point)
+> [補充] (2)類型範圍相同時，無號的優先
 ```c
 int
 my_func(void) {
@@ -136,9 +138,10 @@ my_func(void) {
 }
 ```
 
-- Always declare local variables at the beginning of the block, before first executable statement
+- 總是在區塊的開頭宣告局部變數，在第一個執行語句之前
 
-- Declare counter variables in `for` loop
+- 在 `for` 循環之中宣告計數變數
+> [補充] 在for之中宣告，除非你後續需要這個計數這個變數
 ```c
 /* OK */
 for (size_t i = 0; i < 10; ++i)
@@ -159,7 +162,7 @@ size_t i;
 for (i = 0; i < 10; ++i) ...
 ```
 
-- Avoid variable assignment with function call in declaration, except for single variables
+- 避免在宣告中調用函數來給值，除非是單一變量
 ```c
 void
 a(void) {
@@ -175,8 +178,8 @@ a(void) {
 }
 ```
 
-- Except `char`, `float` or `double`, always use types declared in `stdint.h` library, eg. `uint8_t` for `unsigned 8-bit`, etc.
-- Do not use `stdbool.h` library. Use `1` or `0` for `true` or `false` respectively
+- 除了 `char`、`float` 或 `double` 以外，總是使用 `stdint.h` 函數庫內的類型來宣告，例如 `uint8_t` 是為 `unsigned 8-bit`等等
+- 不要使用 `stdbool.h` 函數庫。使用 `1` 或 `0` 來表示 `true` 或 `false`
 ```c
 /* OK */
 uint8_t status;
@@ -187,8 +190,8 @@ status = 0;
 bool status = true;
 ```
 
-- Never compare against `true`, eg. `if (check_func() == 1)`, use `if (check_func()) { ... }`
-- Always compare pointers against `NULL` value
+- 永遠不與 `true`做比較，例如不使用 `if (check_func() == 1)`，而使用 `if (check_func()) { ... }`
+- 總是將指針與 `NULL` 值做比較
 ```c
 void* ptr;
 
@@ -205,7 +208,7 @@ if (ptr || !ptr) {
 }
 ```
 
-- Always use *pre-increment (and decrement respectively)* instead of *post-increment (and decrement respectively)*
+- 總是使用前遞增/遞減 *pre-increment (and decrement respectively)* 取代後遞增/遞減 *post-increment (and decrement respectively)*
 ```c
 int32_t a = 0;
 ...
