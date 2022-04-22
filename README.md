@@ -219,9 +219,9 @@ a++;            /* Wrong */
 for (size_t j = 0; j < 10; ++j) {}  /* OK */
 ```
 
-- Always use `size_t` for length or size variables
-- Always use `const` for pointer if function should not modify memory pointed to by `pointer`
-- Always use `const` for function parameter or variable, if it should not be modified
+- 總是使用 `size_t` 作為長度或大小的變數
+- 如果函數不應該修改指針所指的記憶體，總是使用 `const` 來修飾 `pointer`
+- 如果函數參數/形式參數 (parameter)或變數 (variable)不應該被修改，總是使用 `const` 來修飾
 ```c
 
 /* When d could be modified, data pointed to by d could not be modified */
@@ -249,8 +249,8 @@ my_func(void* const d) {
 }
 ```
 
-- When function may accept pointer of any type, always use `void *`, do not use `uint8_t *`
-    - Function must take care of proper casting in implementation
+- 當函數可以接受任何類型的指針時總是使用 `void *`，不要使用 `uint8_t *`
+    - 函數在實現時必須注意正確的類型轉換
 ```c
 /*
  * To send data, function should not modify memory pointed to by `data` variable
@@ -272,9 +272,9 @@ send_data(const void* data, int len) {    /* Wrong, not not use int */
 }
 ```
 
-- Always use brackets with `sizeof` operator
-- Never use *Variable Length Array* (VLA). Use dynamic memory allocation instead with standard C `malloc` and `free` functions or if library/project provides custom memory allocation, use its implementation
-    - Take a look at [LwMEM](https://github.com/MaJerle/lwmem), custom memory management library
+- 總是使用括號和 `sizeof` 運算子
+- 不要使用變數長度陣列 *Variable Length Array* (VLA)。使用動態記憶體分配來來取代標準 C `malloc` 和 `free` 函數或者如果函數庫/專案提供了自定記憶體配置，使用它來實現
+    - 參考 [LwMEM](https://github.com/MaJerle/lwmem)，是一個自訂記憶體管理庫
 ```c
 /* OK */
 #include <stdlib.h>
@@ -297,8 +297,8 @@ my_func(size_t size) {
 }
 ```
 
-- Always compare variable against zero, except if it is treated as `boolean` type
-- Never compare `boolean-treated` variables against zero or one. Use NOT (`!`) instead
+- 總是將變數 (variable)和 0 做比較，除非它被視為 `boolean` 類型
+- 不要把 `boolean-treated` 變數和 0 或 1 做比較。用 NOT (`!`) 來取代
 ```c
 size_t length = 5;  /* Counter variable */
 uint8_t is_ok = 0;  /* Boolean-treated variable */
@@ -312,28 +312,28 @@ if (is_ok == 1)     /* Wrong, never compare boolean variable against 1! */
 if (is_ok == 0)     /* Wrong, use ! for negative check */
 ```
 
-- Always use `/* comment */` for comments, even for *single-line* comment
-- Always include check for `C++` with `extern` keyword in header file
-- Every function must include *doxygen-enabled* comment, even if function is `static`
-- Use English names/text for functions, variables, comments
-- Use *lowercase* characters for variables
-- Use *underscore* if variable contains multiple names, eg. `force_redraw`. Do not use `forceRedraw`
+- 總是使用 `/* comment */` 作為註釋，即使是 *single-line* 單行註釋
+- 在標頭檔中總是包含帶有 `extern` 關鍵字的`C++` 檢查
+- 每個函數必須包含 *doxygen-enabled* 註釋，即使是 `static` 的
+- 使用英文名稱/文件的函數、變數、註釋
+- 變數使用 *lowercase* 小寫字母
+- 如果變數包含多個名稱，請使用底線 *underscore*，例如使用 `force_redraw`。不要使用 `forceRedraw`
 - Never cast function returning `void *`, eg. `uint8_t* ptr = (uint8_t *)func_returning_void_ptr();` as `void *` is safely promoted to any other pointer type
     - Use `uint8_t* ptr = func_returning_void_ptr();` instead
-- Always use `<` and `>` for C Standard Library include files, eg. `#include <stdlib.h>`
-- Always use `""` for custom libraries, eg. `#include "my_library.h"`
-- When casting to pointer type, always align asterisk to type, eg. `uint8_t* t = (uint8_t*)var_width_diff_type`
-- Always respect code style already used in project or library
+- 對於C標準函數庫的 include 檔案，總是使用 `<` 和 `>`，例如 `#include <stdlib.h>`
+- 對於自定義函數庫，總是使用 `""` ，例如 `#include "my_library.h"`
+- 當要轉換為指針類型時，總是將 asterisk 星號與類型對齊，例如 `uint8_t* t = (uint8_t*)var_width_diff_type`
+- 總是尊重專案項目或函數庫中已經使用的代碼風格
 
 ## Comments
 
-- Comments starting with `//` are not allowed. Always use `/* comment */`, even for single-line comment
+- 不允許以 `//` 為開頭的註釋，總是使用 `/* comment */`，即使是單行註釋
 ```c
 //This is comment (wrong)
 /* This is comment (ok) */
 ```
 
-- For multi-line comments use `space+asterisk` for every line
+- 對於多行註釋，每行使用 `space+asterisk` 空格+星號
 ```c
 /*
  * This is multi-line comments,
@@ -360,9 +360,10 @@ if (is_ok == 0)     /* Wrong, use ! for negative check */
 void
 my_func(void) {
     char a, b;
-
+                                                /* 下一行的註釋從開頭開始算是12 * 4個空格 */
     a = call_func_returning_char_a(a);          /* This is comment with 12*4 spaces indent from beginning of line */
     b = call_func_returning_char_a_but_func_name_is_very_long(a);   /* This is comment, aligned to 4-spaces indent */
+                                                                    /* 上一行的註釋從開頭是17 * 4個空格，因為>12所以到下一個可用的縮排
 }
 ```
 
